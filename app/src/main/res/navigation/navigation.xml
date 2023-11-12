@@ -1,6 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <navigation xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:id="@+id/navigation">
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/navigation"
+    app:startDestination="@id/fragmentReceptMenu">
 
+    <fragment
+        android:id="@+id/fragmentReceptMenu"
+        android:name="com.example.receiptbook.FragmentReceptMenu"
+        android:label="fragment_recept_menu"
+        tools:layout="@layout/fragment_recept_menu" />
 </navigation>
