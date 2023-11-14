@@ -3,7 +3,9 @@ package com.example.receiptbook.api
 import android.util.Log
 import com.example.receiptbook.adapter.MyItemsRecyclerViewAdapter
 import com.example.recept.adapter.model.MealMenu
-import com.example.recept.adapter.model.MealResponse
+import com.example.recept.adapter.model.MealOne
+import com.example.recept.adapter.model.MealResponseItem
+import com.example.recept.adapter.model.MealResponseMenu
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
@@ -18,30 +20,26 @@ object ApiObject {
         .addConverterFactory(GsonConverterFactory.create())
         .build()
 
-    private val mealDbApi = retrofit.create(MealDbApiService::class.java)
+    private val mealDbApiRandom = retrofit.create(MealDbApiServiceRandom::class.java)
+    private val mealDbApiById = retrofit.create(MealDbApiServiceOne::class.java)
 
-    fun makeApiCall() {
+    fun makeApiCallToMenu() {
         if (isLoading) return
         isLoading = true
         val myItemsRecyclerViewAdapter = MyItemsRecyclerViewAdapter.getInstance()
-//        for (i in 0..15){
-//            myItemsRecyclerViewAdapter.addItems(Meal("$i", i.toString(), ""))
-//        }
-//        isLoading = false
         GlobalScope.launch(Dispatchers.Main) {
             try {
                 for (i in 0..10) {
-                    val response = mealDbApi.getRandomMeal()
+                    val response = mealDbApiRandom.getRandomMeal()
 
                     if (response.isSuccessful) {
-                        val mealResponse: MealResponse? = response.body()
+                        val mealResponse: MealResponseMenu? = response.body()
                         val randomMeals: List<MealMenu>? = mealResponse?.meals
 
 
                         randomMeals?.let {
                             for (meal in it) {
                                 myItemsRecyclerViewAdapter.addItems(meal)
-                                Log.e("ss", meal.ImgSourceUrl)
                             }
                         } ?: run {
                             Log.e("Meal", "Nepodařilo se získat náhodné recepty.")
@@ -57,4 +55,21 @@ object ApiObject {
             }
         }
     }
+
+    suspend fun getRecipeById(idOfMenu: String): MealOne? {
+        try {
+            val response = mealDbApiById.getMealByID(idOfMenu)
+            if (response.isSuccessful) {
+                val mealResponse: MealResponseItem? = response.body()
+                val mealById: List<MealOne>? = mealResponse?.meal
+                return mealById?.get(0)
+            } else {
+                Log.e("Mal", "Chyba při získávání náhodného receptu: ${response.code()}")
+            }
+        } catch (e: Exception) {
+            Log.e("Meal", "Chyba při získávání náhodného receptu: ${e.message}")
+        }
+        return null
+    }
 }
+

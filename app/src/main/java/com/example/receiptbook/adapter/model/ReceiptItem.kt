@@ -9,7 +9,7 @@ data class MealMenu(
     @SerializedName("strMealThumb") val ImgSourceUrl: String,
 )
 
-data class TeriyakiChickenCasserole(
+data class MealOne(
     @SerializedName("idMeal") val idMeal: String,
     @SerializedName("strMeal") val name: String,
     @SerializedName("strCategory") val strCategory: String?,
@@ -58,6 +58,10 @@ data class TeriyakiChickenCasserole(
     @SerializedName("strMeasure20") val strMeasure20: String?,
 )
 
-data class MealResponse(
+data class MealResponseMenu(
     @SerializedName("meals") val meals: List<MealMenu>
+)
+
+data class MealResponseItem(
+    @SerializedName("meals") val meal: List<MealOne>
 )

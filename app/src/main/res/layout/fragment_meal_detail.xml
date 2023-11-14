@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".FragmentMealDetail">
+
+    <LinearLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+        <!-- Image View for the receipt -->
+        <ImageView
+            android:id="@+id/image_receipt"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+
+        <!-- Name of the receipt -->
+        <TextView
+            android:id="@+id/text_name"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Receipt Name"
+            android:textSize="20sp"
+            android:textStyle="bold"
+            android:padding="8dp" />
+
+        <!-- Ingredients -->
+        <TextView
+            android:id="@+id/text_ingredients"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Ingredients:"
+            android:textSize="18sp"
+            android:textStyle="bold"
+            android:padding="8dp" />
+
+        <!-- Instruction -->
+        <TextView
+            android:id="@+id/text_instructions"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Instructions:"
+            android:textSize="18sp"
+            android:textStyle="bold"
+            android:padding="8dp" />
+
+        <!-- Link to YouTube -->
+        <Button
+            android:id="@+id/button_youtube"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Watch on YouTube"
+            android:layout_gravity="center"
+            android:padding="8dp" />
+
+    </LinearLayout>
+
+</FrameLayout>

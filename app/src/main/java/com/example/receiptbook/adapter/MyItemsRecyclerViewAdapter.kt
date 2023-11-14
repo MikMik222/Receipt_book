@@ -10,7 +10,14 @@ import android.view.ViewGroup
 import android.widget.BaseAdapter
 import android.widget.ImageView
 import android.widget.TextView
+import androidx.navigation.NavController
+import androidx.navigation.Navigation
+import androidx.navigation.Navigation.findNavController
+import androidx.navigation.findNavController
+import androidx.navigation.fragment.findNavController
+import com.example.receiptbook.ItemsFragmentDirections
 import com.example.receiptbook.R
+import com.example.receiptbook.api.ApiObject
 
 import com.example.receiptbook.databinding.FragmentItemsBinding
 import com.example.recept.adapter.model.MealMenu
@@ -22,8 +29,8 @@ class MyItemsRecyclerViewAdapter private constructor(
 ) : RecyclerView.Adapter<MyItemsRecyclerViewAdapter.ViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
-
         return ViewHolder(
+
             FragmentItemsBinding.inflate(
                 LayoutInflater.from(parent.context),
                 parent,
@@ -43,10 +50,7 @@ class MyItemsRecyclerViewAdapter private constructor(
         val item = values[position]
         holder.nameReceipt.text = item.name
         val picasso = Picasso.Builder(holder.imgReceipt.context).build()
-        println("dewtfvubhnijk")
-        println(item.ImgSourceUrl)
         picasso.load(item.ImgSourceUrl)
-            .placeholder(R.drawable.ic_launcher_background)
             .error(R.drawable.not_found)
             .into(holder.imgReceipt)
     }
@@ -60,19 +64,21 @@ class MyItemsRecyclerViewAdapter private constructor(
 
         init {
             itemView.setOnClickListener(){
-                println("vgbhkjnlkm" + adapterPosition)
+                println(absoluteAdapterPosition)
+                itemView.findNavController()
+                    .navigate(ItemsFragmentDirections
+                        .actionItemsFragmentToFragmentMealDetail(values[absoluteAdapterPosition].id))
             }
         }
     }
 
     companion object {
-        private var instance: MyItemsRecyclerViewAdapter? = null
 
+        private var instance: MyItemsRecyclerViewAdapter? = null
         fun getInstance(): MyItemsRecyclerViewAdapter {
             return instance ?: synchronized(this) {
                 instance ?: MyItemsRecyclerViewAdapter().also { instance = it }
             }
         }
     }
-
 }

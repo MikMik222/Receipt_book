@@ -7,5 +7,21 @@
     <fragment
         android:id="@+id/itemsFragment"
         android:name="com.example.receiptbook.ItemsFragment"
-        android:label="ItemsFragment" />
+        android:label="ItemsFragment" >
+        <action
+            android:id="@+id/action_itemsFragment_to_fragmentMealDetail"
+            app:destination="@id/fragmentMealDetail" />
+    </fragment>
+    <fragment
+        android:id="@+id/fragmentMealDetail"
+        android:name="com.example.receiptbook.FragmentMealDetail"
+        android:label="fragment_meal_detail"
+        tools:layout="@layout/fragment_meal_detail" >
+        <action
+            android:id="@+id/action_fragmentMealDetail_to_itemsFragment"
+            app:destination="@id/itemsFragment" />
+        <argument
+            android:name="IDMeal"
+            app:argType="string" />
+    </fragment>
 </navigation>
