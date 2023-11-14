@@ -2,23 +2,23 @@ package com.example.receiptbook.adapter
 
 import android.annotation.SuppressLint
 import android.content.Context
+import android.util.Log
 import androidx.recyclerview.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.BaseAdapter
+import android.widget.ImageView
 import android.widget.TextView
 import com.example.receiptbook.R
 
 import com.example.receiptbook.databinding.FragmentItemsBinding
-import com.example.recept.adapter.model.Meal
+import com.example.recept.adapter.model.MealMenu
+import com.squareup.picasso.Picasso
 
-/**
- * [RecyclerView.Adapter] that can display a [PlaceholderItem].
- * TODO: Replace the implementation with code for your data type.
- */
+
 class MyItemsRecyclerViewAdapter private constructor(
-    private val values: MutableList<Meal> = mutableListOf()
+    private val values: MutableList<MealMenu> = mutableListOf()
 ) : RecyclerView.Adapter<MyItemsRecyclerViewAdapter.ViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
@@ -33,28 +33,35 @@ class MyItemsRecyclerViewAdapter private constructor(
 
     }
 
-     internal fun addItems(newItems: Meal) {
-        println("ddddddddddddddddd")
+     @SuppressLint("NotifyDataSetChanged")
+     internal fun addItems(newItems: MealMenu) {
         values.add(newItems)
         notifyDataSetChanged()
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val item = values[position]
-        holder.idView.text = item.name
-        holder.contentView.text = item.instructions
+        holder.nameReceipt.text = item.name
+        val picasso = Picasso.Builder(holder.imgReceipt.context).build()
+        println("dewtfvubhnijk")
+        println(item.ImgSourceUrl)
+        picasso.load(item.ImgSourceUrl)
+            .placeholder(R.drawable.ic_launcher_background)
+            .error(R.drawable.not_found)
+            .into(holder.imgReceipt)
     }
 
 
     override fun getItemCount(): Int = values.size
 
     inner class ViewHolder(binding: FragmentItemsBinding) : RecyclerView.ViewHolder(binding.root) {
-        val idView: TextView = binding.itemName
-        val contentView: TextView = binding.itemFavourite
+        val nameReceipt: TextView = binding.receiptName
+        val imgReceipt: ImageView = binding.receiptImage
 
-
-        override fun toString(): String {
-            return super.toString() + " '" + contentView.text + "'"
+        init {
+            itemView.setOnClickListener(){
+                println("vgbhkjnlkm" + adapterPosition)
+            }
         }
     }
 

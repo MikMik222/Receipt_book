@@ -2,7 +2,7 @@ package com.example.receiptbook.api
 
 import android.util.Log
 import com.example.receiptbook.adapter.MyItemsRecyclerViewAdapter
-import com.example.recept.adapter.model.Meal
+import com.example.recept.adapter.model.MealMenu
 import com.example.recept.adapter.model.MealResponse
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
@@ -23,24 +23,25 @@ object ApiObject {
     fun makeApiCall() {
         if (isLoading) return
         isLoading = true
+        val myItemsRecyclerViewAdapter = MyItemsRecyclerViewAdapter.getInstance()
+//        for (i in 0..15){
+//            myItemsRecyclerViewAdapter.addItems(Meal("$i", i.toString(), ""))
+//        }
+//        isLoading = false
         GlobalScope.launch(Dispatchers.Main) {
             try {
-                Log.d("s","ubhijnok")
                 for (i in 0..10) {
                     val response = mealDbApi.getRandomMeal()
 
                     if (response.isSuccessful) {
                         val mealResponse: MealResponse? = response.body()
-                        val randomMeals: List<Meal>? = mealResponse?.meals
+                        val randomMeals: List<MealMenu>? = mealResponse?.meals
 
-                        val myItemsRecyclerViewAdapter = MyItemsRecyclerViewAdapter.getInstance()
+
                         randomMeals?.let {
                             for (meal in it) {
                                 myItemsRecyclerViewAdapter.addItems(meal)
-
-//                                Log.d("Meal", "Název receptu: ${meal.name}")
-//                                Log.d("Meal", "Postup: ${meal.instructions}")
-//                                Log.d("Meal", "------------------------")
+                                Log.e("ss", meal.ImgSourceUrl)
                             }
                         } ?: run {
                             Log.e("Meal", "Nepodařilo se získat náhodné recepty.")
