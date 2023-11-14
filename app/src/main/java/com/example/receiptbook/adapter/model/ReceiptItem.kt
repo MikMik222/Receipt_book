@@ -6,3 +6,7 @@ data class Meal(
     @SerializedName("strMeal") val name: String,
     @SerializedName("strInstructions") val instructions: String
 )
+
+data class MealResponse(
+    @SerializedName("meals") val meals: List<Meal>
+)

@@ -3,11 +3,9 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/navigation"
-    app:startDestination="@id/fragmentReceptMenu">
-
+    app:startDestination="@id/itemsFragment">
     <fragment
-        android:id="@+id/fragmentReceptMenu"
-        android:name="com.example.receiptbook.FragmentReceptMenu"
-        android:label="fragment_recept_menu"
-        tools:layout="@layout/fragment_recept_menu" />
+        android:id="@+id/itemsFragment"
+        android:name="com.example.receiptbook.ItemsFragment"
+        android:label="ItemsFragment" />
 </navigation>
