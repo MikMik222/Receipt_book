@@ -57,10 +57,4 @@ class ItemsFragment : Fragment() {
 
         return view
     }
-    companion object{
-
-        fun changeFragmentToDetail(idOfReceipt:String){
-
-        }
-    }
 }

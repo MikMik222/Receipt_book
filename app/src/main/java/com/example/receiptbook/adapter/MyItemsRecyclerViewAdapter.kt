@@ -57,7 +57,6 @@ class MyItemsRecyclerViewAdapter private constructor(
 
 
     override fun getItemCount(): Int = values.size
-
     inner class ViewHolder(binding: FragmentItemsBinding) : RecyclerView.ViewHolder(binding.root) {
         val nameReceipt: TextView = binding.receiptName
         val imgReceipt: ImageView = binding.receiptImage
@@ -71,6 +70,7 @@ class MyItemsRecyclerViewAdapter private constructor(
             }
         }
     }
+
 
     companion object {
 
