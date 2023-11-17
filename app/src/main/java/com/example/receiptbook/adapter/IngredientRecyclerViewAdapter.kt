@@ -35,7 +35,6 @@ class IngredientRecyclerViewAdapter :
 
     fun addIngredient(ingredient: Ingredient) {
         ingredientList.add(ingredient)
-        println(ingredient)
         notifyItemInserted(ingredientList.size - 1)
     }
 }

@@ -1,7 +1,9 @@
 <resources>
     <string name="app_name">Receipt book</string>
-    <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="ingredients_name">Ingredients</string>
     <string name="instructions">Instructions</string>
+    <string name="save">Save</string>
+    <string name="save_receipt_button">Save receipt button</string>
+    <string name="navigation_drawer_open">Open</string>
+    <string name="navigation_drawer_close">Close</string>
 </resources>
