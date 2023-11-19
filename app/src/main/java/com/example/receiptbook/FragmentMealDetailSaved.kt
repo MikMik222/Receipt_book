@@ -10,6 +10,7 @@ import android.webkit.WebSettings
 import android.webkit.WebView
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.lifecycleScope
+import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -90,8 +91,10 @@ class FragmentMealDetailSaved : Fragment() {
 
             binding.buttonDelete.setOnClickListener {
                 lifecycleScope.launch {
-
+                    receiptDataStore.removeMealByIndex(context,args.idPositionInList)
+                    findNavController().navigate(R.id.action_fragmentMealDetailSaved_to_fragmentSaved)
                 }
+
             }
 
         }

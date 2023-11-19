@@ -63,4 +63,17 @@ class ReceiptDataStore() {
         }
         return null
     }
+
+    suspend fun removeMealByIndex(context: Context?, indexPosition:Int) {
+        val gson = Gson()
+
+        context?.let { ctx ->
+            val existingList = readMealListFromDataStore(ctx)?.first()?.toMutableList()
+            existingList?.removeAt(indexPosition)
+            val jsonString = gson.toJson(existingList)
+            ctx.dataStore.edit { preferences ->
+                preferences[MEAL_LIST_KEY] = jsonString
+            }
+        }
+    }
 }

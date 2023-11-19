@@ -1,59 +1,103 @@
 package com.example.receiptbook
 
+import android.annotation.SuppressLint
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.webkit.WebChromeClient
+import android.webkit.WebSettings
+import android.webkit.WebView
+import android.widget.ScrollView
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.lifecycleScope
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
+import com.example.receiptbook.adapter.Ingredient
+import com.example.receiptbook.adapter.IngredientRecyclerViewAdapter
+import com.example.receiptbook.adapter.model.UpdateModel
+import com.example.receiptbook.api.ApiObject
+import com.example.receiptbook.data.ReceiptDataStore
+import com.example.receiptbook.databinding.FragmentSearchBinding
+import com.squareup.picasso.Picasso
+import kotlinx.coroutines.launch
 
-// TODO: Rename parameter arguments, choose names that match
-// the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-private const val ARG_PARAM1 = "param1"
-private const val ARG_PARAM2 = "param2"
-
-/**
- * A simple [Fragment] subclass.
- * Use the [FragmentSearch.newInstance] factory method to
- * create an instance of this fragment.
- */
 class FragmentSearch : Fragment() {
-    // TODO: Rename and change types of parameters
-    private var param1: String? = null
-    private var param2: String? = null
+    private var ingredientAdapter: IngredientRecyclerViewAdapter? = null
+    private var _binding: FragmentSearchBinding? = null
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        arguments?.let {
-            param1 = it.getString(ARG_PARAM1)
-            param2 = it.getString(ARG_PARAM2)
-        }
-    }
+    private val binding get() = _binding!!
+    private lateinit var receiptDataStore: ReceiptDataStore
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
-        // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_search, container, false)
+    ): View {
+
+        receiptDataStore = context?.let { ReceiptDataStore() }!!
+        ingredientAdapter = IngredientRecyclerViewAdapter()
+        _binding = FragmentSearchBinding.inflate(inflater, container, false)
+
+        return binding.root
     }
 
-    companion object {
-        /**
-         * Use this factory method to create a new instance of
-         * this fragment using the provided parameters.
-         *
-         * @param param1 Parameter 1.
-         * @param param2 Parameter 2.
-         * @return A new instance of fragment FragmentSearch.
-         */
-        // TODO: Rename and change types and number of parameters
-        @JvmStatic
-        fun newInstance(param1: String, param2: String) =
-            FragmentSearch().apply {
-                arguments = Bundle().apply {
-                    putString(ARG_PARAM1, param1)
-                    putString(ARG_PARAM2, param2)
+    @SuppressLint("SetJavaScriptEnabled")
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        val ingredientRecyclerView: RecyclerView =
+            view.findViewById(R.id.ingredientRecyclerViewSearch)
+
+        ingredientRecyclerView.apply {
+            layoutManager = LinearLayoutManager(context)
+            adapter = ingredientAdapter
+        }
+
+        val webView = view.findViewById<WebView>(R.id.webViewSearch)
+        val scrollV = view.findViewById<ScrollView>(R.id.ScrollViewSearch)
+
+        binding.buttonsubmit.setOnClickListener {
+            val name = binding.nameMealSearch.text.toString()
+            lifecycleScope.launch {
+                val meal = ApiObject.getRecipeByName(name)
+
+                val picasso = Picasso.Builder(context).build()
+                meal?.let { it ->
+                    scrollV.visibility = View.VISIBLE
+                    picasso
+                        .load(it.ImgSourceUrl)
+                        .error(R.drawable.not_found)
+                        .into(binding.imageReceiptSearch)
+                    val updateModel = UpdateModel()
+                    val arrayOfIngredients = updateModel.GetListOfIngredients(meal)
+                    val arrayOfIngredientsMeasure = updateModel.GetListOfIngredientsMeasure(meal)
+                    for (i in arrayOfIngredients.indices) {
+                        if (arrayOfIngredients[i] != "") {
+                            ingredientAdapter?.addIngredient(
+                                Ingredient(arrayOfIngredients[i], arrayOfIngredientsMeasure[i])
+                            )
+                        }
+                    }
+
+                    if (it.strYoutube != null) {
+                        webView.settings.javaScriptEnabled = true
+                        webView.settings.pluginState = WebSettings.PluginState.ON
+                        webView.webChromeClient = WebChromeClient()
+
+                        val videoId = it.strYoutube.split("watch?v=").last()
+                        val videoUrl = "https://www.youtube.com/embed/$videoId"
+                        webView.loadUrl(videoUrl)
+                    }
+                    binding.buttonSaveReceipt.setOnClickListener {
+                        lifecycleScope.launch {
+                            receiptDataStore.saveMealValue(meal, context)
+                        }
+                    }
                 }
             }
+
+
+        }
+
+
     }
 }

@@ -22,6 +22,7 @@ object ApiObject {
 
     private val mealDbApiRandom = retrofit.create(MealDbApiServiceRandom::class.java)
     private val mealDbApiById = retrofit.create(MealDbApiServiceOne::class.java)
+    private val mealDbApiSearch = retrofit.create(MealDbApiServiceSearch::class.java)
 
     fun makeApiCallToMenu() {
         if (isLoading) return
@@ -59,6 +60,22 @@ object ApiObject {
     suspend fun getRecipeById(idOfMenu: String): MealOne? {
         try {
             val response = mealDbApiById.getMealByID(idOfMenu)
+            if (response.isSuccessful) {
+                val mealResponse: MealResponseItem? = response.body()
+                val mealById: List<MealOne>? = mealResponse?.meal
+                return mealById?.get(0)
+            } else {
+                Log.e("Mal", "Chyba při získávání náhodného receptu: ${response.code()}")
+            }
+        } catch (e: Exception) {
+            Log.e("Meal", "Chyba při získávání náhodného receptu: ${e.message}")
+        }
+        return null
+    }
+
+    suspend fun getRecipeByName(name: String): MealOne? {
+        try {
+            val response = mealDbApiSearch.getMealByName(name)
             if (response.isSuccessful) {
                 val mealResponse: MealResponseItem? = response.body()
                 val mealById: List<MealOne>? = mealResponse?.meal

@@ -11,6 +11,8 @@ import androidx.navigation.findNavController
 import androidx.navigation.ui.AppBarConfiguration
 import com.example.receiptbook.api.ApiObject
 import com.google.android.material.navigation.NavigationView
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.launch
 
 
 class MainActivity : AppCompatActivity() {
@@ -20,7 +22,9 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
         ApiObject.makeApiCallToMenu()
-
+        GlobalScope.launch {
+            println( ApiObject.getRecipeByName("Potato"))
+        }
 
 
 

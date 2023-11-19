@@ -17,3 +17,9 @@ interface MealDbApiServiceOne{
     suspend fun getMealByID(@Query("i") id: String): Response<MealResponseItem>
 
 }
+
+interface MealDbApiServiceSearch{
+    @GET("search.php")
+    suspend fun getMealByName(@Query("s") id: String): Response<MealResponseItem>
+
+}
