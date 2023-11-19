@@ -24,4 +24,31 @@
             android:name="IDMeal"
             app:argType="string" />
     </fragment>
+    <fragment
+        android:id="@+id/fragmentSaved"
+        android:name="com.example.receiptbook.FragmentSaved"
+        android:label="fragment_saved"
+        tools:layout="@layout/fragment_saved" >
+        <action
+            android:id="@+id/action_fragmentSaved_to_fragmentMealDetailSaved"
+            app:destination="@id/fragmentMealDetailSaved" />
+    </fragment>
+    <fragment
+        android:id="@+id/fragmentSearch"
+        android:name="com.example.receiptbook.FragmentSearch"
+        android:label="fragment_search"
+        tools:layout="@layout/fragment_search" />
+    <fragment
+        android:id="@+id/fragmentMealDetailSaved"
+        android:name="com.example.receiptbook.FragmentMealDetailSaved"
+        android:label="fragment_meal_detail_saved"
+        tools:layout="@layout/fragment_meal_detail_saved" >
+        <action
+            android:id="@+id/action_fragmentMealDetailSaved_to_fragmentSaved"
+            app:destination="@id/fragmentSaved" />
+        <argument
+            android:name="IDPositionInList"
+            app:argType="integer" />
+    </fragment>
+
 </navigation>

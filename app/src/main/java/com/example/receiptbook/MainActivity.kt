@@ -7,6 +7,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
 import androidx.core.view.GravityCompat
 import androidx.drawerlayout.widget.DrawerLayout
+import androidx.navigation.findNavController
 import androidx.navigation.ui.AppBarConfiguration
 import com.example.receiptbook.api.ApiObject
 import com.google.android.material.navigation.NavigationView
@@ -39,22 +40,23 @@ class MainActivity : AppCompatActivity() {
         )
         drawerLayout.addDrawerListener(toggle)
         toggle.syncState()
+        val navController = findNavController(R.id.nav_host_fragment_content_main)
         val navView = findViewById<NavigationView>(R.id.nav_view)
         navView.setNavigationItemSelectedListener { menuItem ->
             when (menuItem.itemId) {
+
                 R.id.nav_main_menu -> {
-                    println("menu")
+                    navController.navigate(R.id.itemsFragment)
                 }
 
                 R.id.nav_search_recipe -> {
-                    println("receipt")
+                    navController.navigate(R.id.fragmentSearch)
                 }
 
                 R.id.nav_favorites -> {
-                    println("favu")
+                    navController.navigate(R.id.fragmentSaved)
                 }
             }
-            // Close the drawer after handling click
             drawerLayout.closeDrawer(GravityCompat.START)
             true
         }
@@ -73,5 +75,6 @@ class MainActivity : AppCompatActivity() {
         }
         return super.onOptionsItemSelected(item)
     }
+
 
 }

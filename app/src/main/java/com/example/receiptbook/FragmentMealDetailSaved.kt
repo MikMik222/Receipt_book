@@ -16,22 +16,19 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.receiptbook.adapter.Ingredient
 import com.example.receiptbook.adapter.IngredientRecyclerViewAdapter
 import com.example.receiptbook.adapter.model.UpdateModel
-import com.example.receiptbook.api.ApiObject
 import com.example.receiptbook.data.ReceiptDataStore
-import com.example.receiptbook.databinding.FragmentMealDetailBinding
+import com.example.receiptbook.databinding.FragmentMealDetailSavedBinding
 import com.squareup.picasso.Picasso
-import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
 
-class FragmentMealDetail: Fragment() {
+class FragmentMealDetailSaved : Fragment() {
 
     private var ingredientAdapter: IngredientRecyclerViewAdapter? = null
-    val args: FragmentMealDetailArgs by navArgs()
-    private var _binding: FragmentMealDetailBinding? = null
+    val args: FragmentMealDetailSavedArgs by navArgs()
+    private var _binding: FragmentMealDetailSavedBinding? = null
     private val binding get() = _binding!!
-    private lateinit var receiptDataStore :ReceiptDataStore
-
+    private lateinit var receiptDataStore: ReceiptDataStore
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -39,7 +36,7 @@ class FragmentMealDetail: Fragment() {
     ): View {
         receiptDataStore = context?.let { ReceiptDataStore() }!!
         ingredientAdapter = IngredientRecyclerViewAdapter()
-        _binding = FragmentMealDetailBinding.inflate(inflater, container, false)
+        _binding = FragmentMealDetailSavedBinding.inflate(inflater, container, false)
 
         return binding.root
     }
@@ -47,22 +44,26 @@ class FragmentMealDetail: Fragment() {
     @SuppressLint("SetJavaScriptEnabled")
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        val ingredientRecyclerView: RecyclerView = view.findViewById(R.id.ingredientRecyclerView)
+        val ingredientRecyclerView: RecyclerView = view.findViewById(R.id.ingredientRecyclerView_saved)
 
         ingredientRecyclerView.apply {
             layoutManager = LinearLayoutManager(context)
             adapter = ingredientAdapter
         }
-        val webView = view.findViewById<WebView>(R.id.webView)
-        lifecycleScope.launch(Dispatchers.Main) {
-            val meal = ApiObject.getRecipeById(args.idMeal)
+
+        val webView = view.findViewById<WebView>(R.id.webView_saved)
+
+        val idPosition = args.idPositionInList
+        println(idPosition)
+        lifecycleScope.launch {
+            val meal = receiptDataStore.getMealByIndexInArray(context, idPosition)
 
             val picasso = Picasso.Builder(context).build()
             meal?.let { it ->
                 picasso
                     .load(it.ImgSourceUrl)
                     .error(R.drawable.not_found)
-                    .into(binding.imageReceipt)
+                    .into(binding.imageReceiptSaved)
                 val updateModel = UpdateModel()
                 val arrayOfIngredients = updateModel.GetListOfIngredients(meal)
                 val arrayOfIngredientsMeasure = updateModel.GetListOfIngredientsMeasure(meal)
@@ -74,7 +75,7 @@ class FragmentMealDetail: Fragment() {
                     }
                 }
 
-                if(it.strYoutube != null){
+                if (it.strYoutube != null) {
                     webView.settings.javaScriptEnabled = true
                     webView.settings.pluginState = WebSettings.PluginState.ON
                     webView.webChromeClient = WebChromeClient()
@@ -83,17 +84,18 @@ class FragmentMealDetail: Fragment() {
                     val videoUrl = "https://www.youtube.com/embed/$videoId"
                     webView.loadUrl(videoUrl)
                 }
-
-
-
-                binding.buttonSaveReceipt.setOnClickListener{
-                    lifecycleScope.launch {
-                        receiptDataStore.saveMealValue(meal,context)
-                    }
-                }
-                binding.nameOfRecept.text = it.name
-                binding.instructionOfRecept.text = it.strInstructions
             }
+
+
+
+            binding.buttonDelete.setOnClickListener {
+                lifecycleScope.launch {
+
+                }
+            }
+
         }
+
+
     }
 }

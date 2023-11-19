@@ -15,13 +15,11 @@ import kotlinx.coroutines.flow.map
 
 private const val PREFERENCES_STORE_NAME = "my_store"
 
-// Create a DataStore instance using the preferencesDataStore delegate, with the Context as
-// receiver.
-private val Context.dataStore : DataStore<Preferences> by preferencesDataStore(
+private val Context.dataStore: DataStore<Preferences> by preferencesDataStore(
     name = PREFERENCES_STORE_NAME
 )
 
-class ReceiptDataStore (context: Context) {
+class ReceiptDataStore() {
 
     private val MEAL_LIST_KEY = stringPreferencesKey("meal_list_key")
 
@@ -55,5 +53,14 @@ class ReceiptDataStore (context: Context) {
         }
     }
 
-
+    suspend fun getMealByIndexInArray(
+        context: Context?,
+        idPosition: Int
+    ): MealOne? {
+        context?.let { ctx ->
+            val existingList = readMealListFromDataStore(ctx)?.first()?.toMutableList()
+            return existingList?.get(idPosition)
+        }
+        return null
+    }
 }
