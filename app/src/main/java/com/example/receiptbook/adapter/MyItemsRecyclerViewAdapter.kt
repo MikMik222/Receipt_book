@@ -1,24 +1,14 @@
 package com.example.receiptbook.adapter
 
 import android.annotation.SuppressLint
-import android.content.Context
-import android.util.Log
-import androidx.recyclerview.widget.RecyclerView
 import android.view.LayoutInflater
-import android.view.View
 import android.view.ViewGroup
-import android.widget.BaseAdapter
 import android.widget.ImageView
 import android.widget.TextView
-import androidx.navigation.NavController
-import androidx.navigation.Navigation
-import androidx.navigation.Navigation.findNavController
 import androidx.navigation.findNavController
-import androidx.navigation.fragment.findNavController
+import androidx.recyclerview.widget.RecyclerView
 import com.example.receiptbook.ItemsFragmentDirections
 import com.example.receiptbook.R
-import com.example.receiptbook.api.ApiObject
-
 import com.example.receiptbook.databinding.FragmentItemsBinding
 import com.example.recept.adapter.model.MealMenu
 import com.squareup.picasso.Picasso
@@ -43,7 +33,7 @@ class MyItemsRecyclerViewAdapter private constructor(
      @SuppressLint("NotifyDataSetChanged")
      internal fun addItems(newItems: MealMenu) {
         values.add(newItems)
-        notifyDataSetChanged()
+        notifyItemInserted(values.size)
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {

@@ -6,6 +6,5 @@
     <string name="save_receipt_button">Save receipt button</string>
     <string name="navigation_drawer_open">Open</string>
     <string name="navigation_drawer_close">Close</string>
-    <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="logo_splashscreen">Logo splashscreen</string>
 </resources>
