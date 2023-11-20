@@ -7,4 +7,5 @@
     <string name="navigation_drawer_open">Open</string>
     <string name="navigation_drawer_close">Close</string>
     <string name="logo_splashscreen">Logo splashscreen</string>
+    <string name="image_of_app">image of app</string>
 </resources>
