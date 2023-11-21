@@ -8,4 +8,7 @@
     <string name="navigation_drawer_close">Close</string>
     <string name="logo_splashscreen">Logo splashscreen</string>
     <string name="image_of_app">image of app</string>
+    <string name="enter_name_meal">Enter name meal</string>
+    <string name="submit">Submit</string>
+    <string name="image_of_meal">Image of meal</string>
 </resources>
