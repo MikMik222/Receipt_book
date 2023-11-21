@@ -6,7 +6,6 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.webkit.WebChromeClient
-import android.webkit.WebSettings
 import android.webkit.WebView
 import android.widget.ScrollView
 import androidx.fragment.app.Fragment
@@ -62,6 +61,13 @@ class FragmentSearch : Fragment() {
 
                 val picasso = Picasso.Builder(context).build()
                 meal?.let { it ->
+                    if (receiptDataStore.mealInSaved(context, meal.idMeal) != null) {
+                        binding.buttonSaveReceipt.visibility = View.GONE
+                    }else{
+                        println("viditelny")
+                        binding.buttonSaveReceipt.visibility = View.VISIBLE
+                    }
+
                     scrollV.visibility = View.VISIBLE
                     picasso
                         .load(it.ImgSourceUrl)
@@ -80,7 +86,6 @@ class FragmentSearch : Fragment() {
 
                     if (it.strYoutube != null) {
                         webView.settings.javaScriptEnabled = true
-                        webView.settings.pluginState = WebSettings.PluginState.ON
                         webView.webChromeClient = WebChromeClient()
 
                         val videoId = it.strYoutube.split("watch?v=").last()
@@ -90,6 +95,7 @@ class FragmentSearch : Fragment() {
                     binding.buttonSaveReceipt.setOnClickListener {
                         lifecycleScope.launch {
                             receiptDataStore.saveMealValue(meal, context)
+                            binding.buttonSaveReceipt.visibility = View.GONE
                         }
                     }
                 }

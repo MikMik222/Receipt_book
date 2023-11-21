@@ -15,7 +15,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_margin="16dp"
-            android:hint="Enter name meal"
+            android:hint="@string/enter_name_meal"
             android:inputType="text"
             android:minHeight="48dp" />
 
@@ -26,14 +26,14 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="16dp"
-            android:text="Submit" />
+            android:text="@string/submit" />
 
 
         <ScrollView
             android:id="@+id/ScrollViewSearch"
-            android:visibility="gone"
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
+            android:layout_height="match_parent"
+            android:visibility="gone">
 
 
             <LinearLayout
@@ -45,7 +45,8 @@
                     android:id="@+id/image_receipt_search"
                     android:layout_width="match_parent"
                     android:layout_height="200dp"
-                    android:scaleType="centerCrop" />
+                    android:scaleType="centerCrop"
+                    android:contentDescription="@string/image_of_meal" />
 
                 <!-- Name of the receipt -->
                 <TextView
@@ -119,20 +120,6 @@
                     android:layout_height="250sp"
                     tools:ignore="WebViewLayout" />
 
-                <RelativeLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent">
-
-                    <com.google.android.material.floatingactionbutton.FloatingActionButton
-                        android:id="@+id/buttonSaveReceipt"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_alignParentEnd="true"
-                        android:layout_alignParentBottom="true"
-                        android:layout_margin="16dp"
-                        android:contentDescription="@string/save_receipt_button"
-                        android:src="@drawable/save" />
-                </RelativeLayout>
 
                 <!-- save button -->
 
@@ -140,6 +127,23 @@
 
 
         </ScrollView>
+
     </LinearLayout>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <com.google.android.material.floatingactionbutton.FloatingActionButton
+            android:id="@+id/buttonSaveReceipt"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentEnd="true"
+            android:layout_alignParentBottom="true"
+            android:layout_margin="16dp"
+            android:visibility="gone"
+            android:contentDescription="@string/save_receipt_button"
+            android:src="@drawable/save" />
+    </RelativeLayout>
 
 </FrameLayout>

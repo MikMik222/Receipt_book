@@ -6,7 +6,6 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.webkit.WebChromeClient
-import android.webkit.WebSettings
 import android.webkit.WebView
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.lifecycleScope
@@ -40,7 +39,12 @@ class FragmentMealDetail: Fragment() {
         receiptDataStore = context?.let { ReceiptDataStore() }!!
         ingredientAdapter = IngredientRecyclerViewAdapter()
         _binding = FragmentMealDetailBinding.inflate(inflater, container, false)
+        lifecycleScope.launch {
+            if (receiptDataStore.mealInSaved(context, args.idMeal) != null) {
 
+                binding.buttonSaveReceipt.visibility = View.GONE
+            }
+        }
         return binding.root
     }
 
@@ -76,7 +80,6 @@ class FragmentMealDetail: Fragment() {
 
                 if(it.strYoutube != null){
                     webView.settings.javaScriptEnabled = true
-                    webView.settings.pluginState = WebSettings.PluginState.ON
                     webView.webChromeClient = WebChromeClient()
 
                     val videoId = it.strYoutube.split("watch?v=").last()
@@ -89,7 +92,9 @@ class FragmentMealDetail: Fragment() {
                 binding.buttonSaveReceipt.setOnClickListener{
                     lifecycleScope.launch {
                         receiptDataStore.saveMealValue(meal,context)
+                        binding.buttonSaveReceipt.visibility = View.GONE
                     }
+
                 }
                 binding.nameOfRecept.text = it.name
                 binding.instructionOfRecept.text = it.strInstructions

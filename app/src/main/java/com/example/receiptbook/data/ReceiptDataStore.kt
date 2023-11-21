@@ -74,6 +74,22 @@ class ReceiptDataStore() {
             ctx.dataStore.edit { preferences ->
                 preferences[MEAL_LIST_KEY] = jsonString
             }
+
         }
+    }
+    suspend fun mealInSaved(context: Context?, idMeal :String):Int?{
+        context?.let { ctx ->
+            val existingList = readMealListFromDataStore(ctx)?.first()?.toMutableList()
+            if (existingList != null) {
+                for (index in 0..<existingList.size) {
+                    if (idMeal == existingList[index].idMeal) {
+                        println("in list")
+
+                        return index
+                    }
+                }
+            }
+        }
+        return null
     }
 }
