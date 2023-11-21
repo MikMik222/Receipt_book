@@ -67,7 +67,7 @@ class FragmentSearch : Fragment() {
                         println("viditelny")
                         binding.buttonSaveReceipt.visibility = View.VISIBLE
                     }
-
+                    binding.nameOfReceptSearch.text = meal.name
                     scrollV.visibility = View.VISIBLE
                     picasso
                         .load(it.ImgSourceUrl)
